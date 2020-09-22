@@ -1,0 +1,28 @@
+/* * {
+  border: 2px solid black;
+} */
+body {
+  background-color: aqua;
+}
+.Button {
+  width: 450px;
+  margin: auto;
+}
+.btn {
+  width: 78px;
+  height: 78px;
+}
+.Input {
+  height: 70px;
+  background-color: black;
+  color: white;
+  text-align: right;
+  margin-bottom: 5px;
+  width: 335px;
+  margin-left: 392px;
+  font-size: 30px;
+  line-height: 65px;
+}
+.Judul {
+  margin-top: 50px;
+}
