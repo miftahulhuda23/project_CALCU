@@ -12,11 +12,35 @@ const Button = () => {
       setData({
         tampil: value,
       });
-    } else {
+    } else if (value >= 0 && value <= 9) {
       setData({
         tampil: (data.tampil += value),
       });
+    } else if (
+      value === "+" ||
+      value === "-" ||
+      value === "*" ||
+      value === "/"
+    ) {
+      const angkaAkhir = data.tampil.substr(
+        data.tampil.length - 1,
+        data.tampil.length
+      );
+      if (
+        angkaAkhir !== "+" &&
+        angkaAkhir !== "-" &&
+        angkaAkhir !== "*" &&
+        angkaAkhir !== "/"
+      ) {
+        setData({ tampil: (data.tampil += value) });
+      }
     }
+  };
+
+  const hasil = () => {
+    setData({
+      tampil: String(eval(data.tampil)),
+    });
   };
 
   const clear = () => {
@@ -168,7 +192,11 @@ const Button = () => {
         >
           0
         </button>
-        <button name="=" className="btn btn-dark ml-2 mb-2">
+        <button
+          name="="
+          className="btn btn-dark ml-2 mb-2"
+          onClick={() => hasil()}
+        >
           =
         </button>
         <button
