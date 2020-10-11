@@ -16,32 +16,40 @@ const Button = () => {
       setData({
         tampil: (data.tampil += value),
       });
-    } else if (
-      value === "+" ||
-      value === "-" ||
-      value === "*" ||
-      value === "/"
-    ) {
+    } else if ( value === "+" || value === "-" || value === "*" || value === "/" ) {
       const angkaAkhir = data.tampil.substr(
         data.tampil.length - 1,
         data.tampil.length
       );
-      if (
-        angkaAkhir !== "+" &&
-        angkaAkhir !== "-" &&
-        angkaAkhir !== "*" &&
-        angkaAkhir !== "/"
-      ) {
+      if ( angkaAkhir !== "+" && angkaAkhir !== "-" && angkaAkhir !== "*" && angkaAkhir !== "/") {
         setData({ tampil: (data.tampil += value) });
+      } else if (angkaAkhir === "+" || angkaAkhir === "-" || angkaAkhir === "*" || angkaAkhir === "/") {
+        let deleteList = data.tampil.substr(0, data.tampil.length - 1)
+        setData ({
+          tampil : deleteList += value
+        })
       }
     }
   };
 
   const hasil = () => {
-    setData({
+    const angkaAkhir = data.tampil.substr(
+    data.tampil.length - 1,
+    data.tampil.length
+    )
+    if (angkaAkhir === "+" || angkaAkhir === "-" || angkaAkhir === "*" || angkaAkhir === "/") {
+      const deleteLast = data.tampil.substr(0, data.tampil.length - 1) 
+      setData ({
+        // eslint-disable-next-line
+        tampil : String(eval(deleteLast))
+      })  
+    } else {
+      setData({
+        // eslint-disable-next-line
       tampil: String(eval(data.tampil)),
-    });
-  };
+      });
+    }
+  }
 
   const clear = () => {
     setData({
@@ -50,9 +58,15 @@ const Button = () => {
   };
 
   const hapus = () => {
-    setData({
-      tampil: data.tampil.substr(0, data.tampil.length - 1),
-    });
+    if(data.tampil.length === 1 ){
+      setData({
+        tampil: "0"
+      })
+    }else{
+      setData({
+        tampil: data.tampil.substr(0, data.tampil.length - 1),
+      });
+     }
   };
 
   return (
@@ -64,28 +78,14 @@ const Button = () => {
       <div className="Button">
         <button
           name="AC"
-          className="btn btn-danger ml-2 mb-2"
+          className="btn del btn-danger ml-2 mb-2"
           onClick={() => clear()}
         >
           AC
         </button>
         <button
-          name="("
-          className="btn btn-primary ml-2 mb-2"
-          onClick={() => input("(")}
-        >
-          (
-        </button>
-        <button
-          name=")"
-          className="btn btn-primary ml-2 mb-2"
-          onClick={() => input(")")}
-        >
-          )
-        </button>
-        <button
           name="DEL"
-          className="btn btn-danger ml-2 mb-2"
+          className="btn del btn-danger ml-2 mb-2"
           onClick={() => hapus()}
         >
           DEL

@@ -23,7 +23,11 @@ body {
   font-size: 30px;
   line-height: 65px;
   padding-right: 10px;
+  overflow: auto;
 }
 .Judul {
   margin-top: 50px;
+}
+.del{
+  width: 164px;
 }
