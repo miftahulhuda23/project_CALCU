@@ -5,51 +5,72 @@ import Input from "../Input/Input";
 const Button = () => {
   const [data, setData] = useState({
     tampil: "0",
+    lastInput: ""
   });
 
   const input = (value) => {
-    if (data.tampil === "0") {
+    if (data.tampil === "0" && value >= 0 && value <= 9) {
       setData({
         tampil: value,
+        lastInput: ""
       });
-    } else if (value >= 0 && value <= 9) {
+    } else if (value >= 0 && value <= 9 ) {
       setData({
-        tampil: (data.tampil += value),
+        tampil: data.tampil += value,
+        lastInput: data.lastInput += value
       });
-    } else if ( value === "+" || value === "-" || value === "*" || value === "/" ) {
+    } else if (value === "." ){
+      if (data.lastInput.indexOf('.') === -1) {
+        setData ({ 
+          tampil: data.tampil += value,
+          lastInput: data.lastInput += value
+        })
+      } 
+    } else if ( value === "+" || value === "-" || value === "*" || value === "/") {
       const angkaAkhir = data.tampil.substr(
         data.tampil.length - 1,
         data.tampil.length
       );
-      if ( angkaAkhir !== "+" && angkaAkhir !== "-" && angkaAkhir !== "*" && angkaAkhir !== "/") {
-        setData({ tampil: (data.tampil += value) });
-      } else if (angkaAkhir === "+" || angkaAkhir === "-" || angkaAkhir === "*" || angkaAkhir === "/") {
-        let deleteList = data.tampil.substr(0, data.tampil.length - 1)
-        setData ({
-          tampil : deleteList += value
-        })
+      if (data.tampil === "0") {
+        return;
+      } else if ( angkaAkhir !== "+" && angkaAkhir !== "-" && angkaAkhir !== "*" && angkaAkhir !== "/") {
+        setData({ 
+          tampil: (data.tampil += value),
+          lastInput: ""
+         });
+      } else if ( angkaAkhir === "+" || angkaAkhir === "-" || angkaAkhir === "*" || angkaAkhir === "/") {
+        let deleteList = data.tampil.substr(0, data.tampil.length - 1);
+        setData({
+          tampil: (deleteList += value),
+          lastInput: ""
+        });
       }
     }
   };
 
   const hasil = () => {
     const angkaAkhir = data.tampil.substr(
-    data.tampil.length - 1,
-    data.tampil.length
-    )
-    if (angkaAkhir === "+" || angkaAkhir === "-" || angkaAkhir === "*" || angkaAkhir === "/") {
-      const deleteLast = data.tampil.substr(0, data.tampil.length - 1) 
-      setData ({
+      data.tampil.length - 1,
+      data.tampil.length
+    );
+    if (
+      angkaAkhir === "+" ||
+      angkaAkhir === "-" ||
+      angkaAkhir === "*" ||
+      angkaAkhir === "/"
+    ) {
+      const deleteLast = data.tampil.substr(0, data.tampil.length - 1);
+      setData({
         // eslint-disable-next-line
-        tampil : String(eval(deleteLast))
-      })  
+        tampil: String(eval(deleteLast)),
+      });
     } else {
       setData({
         // eslint-disable-next-line
-      tampil: String(eval(data.tampil)),
+        tampil: String(eval(data.tampil)),
       });
     }
-  }
+  };
 
   const clear = () => {
     setData({
@@ -58,15 +79,15 @@ const Button = () => {
   };
 
   const hapus = () => {
-    if(data.tampil.length === 1 ){
+    if (data.tampil.length === 1) {
       setData({
-        tampil: "0"
-      })
-    }else{
+        tampil: "0",
+      });
+    } else {
       setData({
         tampil: data.tampil.substr(0, data.tampil.length - 1),
       });
-     }
+    }
   };
 
   return (
