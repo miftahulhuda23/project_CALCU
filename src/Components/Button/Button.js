@@ -5,25 +5,32 @@ import Input from "../Input/Input";
 const Button = () => {
   const [data, setData] = useState({
     tampil: "0",
-    lastInput: ""
+    lastInput: "",
+    angkaHasil: true 
   });
 
   const input = (value) => {
-    if (data.tampil === "0" && value >= 0 && value <= 9) {
+    if ( data.angkaHasil === true && value >= 0 && value <= 9 || data.tampil === "0"  ) {
       setData({
         tampil: value,
-        lastInput: ""
+        lastInput: "",
+        angkaHasil: false
       });
-    } else if (value >= 0 && value <= 9 ) {
+    } else if (value >= 0 && value <= 9 && data.angkaHasil === false ) {
       setData({
         tampil: data.tampil += value,
-        lastInput: data.lastInput += value
+        lastInput: data.lastInput += value,
+        angkaHasil: false
       });
     } else if (value === "." ){
-      if (data.lastInput.indexOf('.') === -1) {
+      if (data.angkaHasil === true) {
+        return;
+      }
+      else if (data.lastInput.indexOf('.') === -1) {
         setData ({ 
           tampil: data.tampil += value,
-          lastInput: data.lastInput += value
+          lastInput: data.lastInput += value,
+          angkaHasil: false
         })
       } 
     } else if ( value === "+" || value === "-" || value === "*" || value === "/") {
@@ -34,15 +41,17 @@ const Button = () => {
       if (data.tampil === "0") {
         return;
       } else if ( angkaAkhir !== "+" && angkaAkhir !== "-" && angkaAkhir !== "*" && angkaAkhir !== "/") {
-        setData({ 
+        setData({
           tampil: (data.tampil += value),
-          lastInput: ""
+          lastInput: "",
+          angkaHasil: false
          });
       } else if ( angkaAkhir === "+" || angkaAkhir === "-" || angkaAkhir === "*" || angkaAkhir === "/") {
         let deleteList = data.tampil.substr(0, data.tampil.length - 1);
         setData({
           tampil: (deleteList += value),
-          lastInput: ""
+          lastInput: "",
+          angkaHasil: false
         });
       }
     }
@@ -63,28 +72,30 @@ const Button = () => {
       setData({
         // eslint-disable-next-line
         tampil: String(eval(deleteLast)),
+        angkaHasil: true
       });
     } else {
       setData({
         // eslint-disable-next-line
         tampil: String(eval(data.tampil)),
+        angkaHasil: true
       });
     }
   };
 
   const clear = () => {
-    setData({
+    setData({...data,
       tampil: "0",
     });
   };
 
   const hapus = () => {
     if (data.tampil.length === 1) {
-      setData({
+      setData({...data,
         tampil: "0",
       });
     } else {
-      setData({
+      setData({...data,
         tampil: data.tampil.substr(0, data.tampil.length - 1),
       });
     }
